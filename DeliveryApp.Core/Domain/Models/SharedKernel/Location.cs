@@ -38,7 +38,7 @@ namespace DeliveryApp.Core.Domain.Models.SharedKernel
         /// </summary>
         /// <param name="x">Координата по оси X</param>
         /// <param name="y">Координата по оси Y</param>
-        private Location(byte x, byte y)
+        private Location(byte x, byte y) : this()
         {
             X = x;
             Y = y;
