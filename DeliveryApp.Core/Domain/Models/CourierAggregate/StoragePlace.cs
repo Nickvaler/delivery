@@ -16,6 +16,14 @@ namespace DeliveryApp.Core.Domain.Models.CourierAggregate
         private const string CannotPlaceVolumeMoreThanTotalVolumeError = "Нельзя поместить заказ объём которого превышает допустимый объём места хранения";
         private const string CannotExtractNullOrderError = "Нельзя извлечь заказ из места хранения без заказа";
 
+        private const string DefaultStorageName = "Сумка";
+        private const int DefaultStorageVolume = 10;
+
+        /// <summary>
+        /// Место хранение по умолчаню
+        /// </summary>
+        public static StoragePlace DefaultStoragePlace => new(DefaultStorageName, DefaultStorageVolume);
+
         [ExcludeFromCodeCoverage]
         /// <summary>
         /// Ctr

@@ -38,7 +38,7 @@ namespace DeliveryApp.Core.Domain.Models.SharedKernel
         /// </summary>
         /// <param name="x">Координата по оси X</param>
         /// <param name="y">Координата по оси Y</param>
-        private Location(byte x, byte y) : this()
+        private Location(int x, int y) : this()
         {
             X = x;
             Y = y;
@@ -47,12 +47,12 @@ namespace DeliveryApp.Core.Domain.Models.SharedKernel
         /// <summary>
         /// Координата X
         /// </summary>
-        public byte X { get; }
+        public int X { get; }
 
         /// <summary>
         /// Координата Y
         /// </summary>
-        public byte Y { get; }
+        public int Y { get; }
 
         /// <summary>
         /// Factory Method
@@ -60,7 +60,7 @@ namespace DeliveryApp.Core.Domain.Models.SharedKernel
         /// <param name="x">Координата по оси X</param>
         /// <param name="y">Координата по оси Y</param>
         /// <returns>Результат</returns>
-        public static Result<Location, Error> Create(byte x, byte y)
+        public static Result<Location, Error> Create(int x, int y)
         {
 
             if (x < MinValue || x > MaxValue)
@@ -81,12 +81,12 @@ namespace DeliveryApp.Core.Domain.Models.SharedKernel
         /// </summary>
         public static Result<Location, Error> CreateRandom()
         {
-            var randomX = (byte)Random.Shared.Next(MinValue, MaxValue + 1);
-            var randomY = (byte)Random.Shared.Next(MinValue, MaxValue + 1);
+            var randomX = Random.Shared.Next(MinValue, MaxValue + 1);
+            var randomY = Random.Shared.Next(MinValue, MaxValue + 1);
             return Create(randomX, randomY);
         }
 
-        public Result<int, Error> CalculateDistance(Location to)
+        public int CalculateDistance(Location to)
         {
             return Math.Abs(to.X - X) + Math.Abs(to.Y - Y);
         }

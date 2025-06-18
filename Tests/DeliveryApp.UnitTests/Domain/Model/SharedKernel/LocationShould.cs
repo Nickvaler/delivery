@@ -57,7 +57,7 @@ namespace DeliveryApp.UnitTests.Domain.Model.SharedKernel
             var distance = currentLocation.Value.CalculateDistance(toLocation.Value);
 
             //Assert
-            distance.Value.Should().Be(resultDistance);
+            distance.Should().Be(resultDistance);
         }
 
 
