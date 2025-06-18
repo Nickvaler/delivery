@@ -10,7 +10,7 @@ namespace DeliveryApp.Core.Domain.Models.CourierAggregate
     public class StoragePlace : Entity<Guid>
     {
         private const string EmptyNameError = "Название места хранения не может быть пустым или пробелом";
-        private const string TotalVolumeZeroOrLessError = "Допустимый объём не может быть меньше или равен нулю";
+        private const string VolumeZeroOrLessError = "Допустимый объём не может быть меньше или равен нулю";
         private const string OrderCannotBeEmptyGuidError = "Месту хранения не может быть присвоен пустой GUID";
         private const string CurrentStoragePlaceHasOrderError = "У места хранения уже назначен заказ";
         private const string CannotPlaceVolumeMoreThanTotalVolumeError = "Нельзя поместить заказ объём которого превышает допустимый объём места хранения";
@@ -32,9 +32,20 @@ namespace DeliveryApp.Core.Domain.Models.CourierAggregate
             TotalVolume = totalVolume;
         }
 
+        /// <summary>
+        /// Название
+        /// </summary>
         public string Name { get; init; }
+
+        /// <summary>
+        /// Объём
+        /// </summary>
         public int TotalVolume { get; init; }
-        public Guid? OrderId { get; set; }
+
+        /// <summary>
+        /// Идентификатор заказа
+        /// </summary>
+        public Guid? OrderId { get; private set; }
 
         /// <summary>
         /// Factory Method
@@ -49,17 +60,27 @@ namespace DeliveryApp.Core.Domain.Models.CourierAggregate
 
             if (totalVolume <= 0)
             {
-                return GeneralErrors.ValueIsInvalid(TotalVolumeZeroOrLessError);
+                return GeneralErrors.ValueIsInvalid(VolumeZeroOrLessError);
             }
 
             return new StoragePlace(name, totalVolume);
         }
 
-        public string IsEmpty()
+        /// <summary>
+        /// Проверить пустой ли заказ
+        /// </summary>
+        /// <returns></returns>
+        public bool IsEmpty()
         {
-            return OrderId == null ? "да" : "нет";
+            return OrderId == null;
         }
 
+        /// <summary>
+        /// Поместить заказ в место хранения
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <param name="volume"></param>
+        /// <returns></returns>
         public Result<object, Error> SetOrder(Guid orderId, int volume)
         {
             if (orderId.Equals(Guid.Empty))
@@ -67,9 +88,14 @@ namespace DeliveryApp.Core.Domain.Models.CourierAggregate
                 return GeneralErrors.ValueIsInvalid(OrderCannotBeEmptyGuidError);
             }
 
-            if (OrderId != null)
+            if (!IsEmpty())
             {
                 return GeneralErrors.ValueIsInvalid(CurrentStoragePlaceHasOrderError);
+            }
+
+            if (volume <= 0)
+            {
+                return GeneralErrors.ValueIsInvalid(VolumeZeroOrLessError);
             }
 
             if (TotalVolume < volume)
@@ -81,9 +107,13 @@ namespace DeliveryApp.Core.Domain.Models.CourierAggregate
             return new object();
         }
 
+        /// <summary>
+        /// Освободить место хранения
+        /// </summary>
+        /// <returns></returns>
         public Result<Guid, Error> Extract()
         {
-            if (OrderId == null)
+            if (IsEmpty())
             {
                 return GeneralErrors.ValueIsInvalid(CannotExtractNullOrderError);
             }

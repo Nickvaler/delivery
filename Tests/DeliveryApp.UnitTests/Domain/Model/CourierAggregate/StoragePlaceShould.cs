@@ -62,7 +62,7 @@ namespace DeliveryApp.UnitTests.Domain.Model.CourierAggregate
             var result = bagPlace.IsEmpty();
 
             // Assert
-            result.Should().Be("да");
+            result.Should().BeTrue();
         }
 
         [Fact]
@@ -78,7 +78,7 @@ namespace DeliveryApp.UnitTests.Domain.Model.CourierAggregate
             var result = bagPlace.IsEmpty();
 
             // Assert
-            result.Should().Be("нет");
+            result.Should().BeFalse();
             bagPlace.Id.Should().NotBeEmpty();
             bagPlace.OrderId.Should().NotBeEmpty();
         }
@@ -146,7 +146,7 @@ namespace DeliveryApp.UnitTests.Domain.Model.CourierAggregate
             var result = bagPlace.IsEmpty();
 
             // Assert
-            result.Should().Be("да");
+            result.Should().BeTrue();
         }
 
         [Fact]
