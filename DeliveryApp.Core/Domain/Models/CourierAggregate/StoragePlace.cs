@@ -81,7 +81,7 @@ namespace DeliveryApp.Core.Domain.Models.CourierAggregate
         /// <param name="orderId"></param>
         /// <param name="volume"></param>
         /// <returns></returns>
-        public Result<object, Error> SetOrder(Guid orderId, int volume)
+        public UnitResult<Error> SetOrder(Guid orderId, int volume)
         {
             if (orderId.Equals(Guid.Empty))
             {
@@ -104,7 +104,7 @@ namespace DeliveryApp.Core.Domain.Models.CourierAggregate
             }
 
             OrderId = orderId;
-            return new object();
+            return new UnitResult<Error>();
         }
 
         /// <summary>
