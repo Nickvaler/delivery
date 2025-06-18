@@ -1,5 +1,5 @@
-using System.Diagnostics.CodeAnalysis;
 using CSharpFunctionalExtensions;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Primitives;
 
