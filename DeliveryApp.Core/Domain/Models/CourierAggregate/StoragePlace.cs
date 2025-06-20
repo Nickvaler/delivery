@@ -112,7 +112,7 @@ namespace DeliveryApp.Core.Domain.Models.CourierAggregate
             }
 
             OrderId = orderId;
-            return new UnitResult<Error>();
+            return UnitResult.Success<Error>();
         }
 
         /// <summary>

@@ -91,7 +91,7 @@ namespace DeliveryApp.Core.Domain.Models.CourierAggregate
         public UnitResult<Error> AddStoragePlace(string name, int volume)
         {
             StoragePlaces.Add(new StoragePlace(name, volume));
-            return new UnitResult<Error>();
+            return UnitResult.Success<Error>();
         }
 
         /// <summary>
@@ -119,19 +119,16 @@ namespace DeliveryApp.Core.Domain.Models.CourierAggregate
         /// </summary>
         /// <param name="order"></param>
         /// <returns></returns>
-        public Result<Error> TakeOrder(Order order)
+        public UnitResult<Error> TakeOrder(Order order)
         {
             var canTake = CanTakeVolumeForOrder(order.Volume);
             if (canTake.IsFailure)
             {
                 return GeneralErrors.ValueIsInvalid(canTake.Error.Message);
             }
-            else
-            {
-                var storagePlace = StoragePlaces.First(sp => sp.IsEmpty() && sp.TotalVolume >= order.Volume);
-                storagePlace.SetOrder(order.Id, order.Volume);
-                return new Result<Error>();
-            }
+            var storagePlace = StoragePlaces.First(sp => sp.IsEmpty() && sp.TotalVolume >= order.Volume);
+            storagePlace.SetOrder(order.Id, order.Volume);
+            return UnitResult.Success<Error>();
         }
 
         /// <summary>
@@ -153,7 +150,7 @@ namespace DeliveryApp.Core.Domain.Models.CourierAggregate
                 return GeneralErrors.ValueIsInvalid(result.Error.Message);
             }
 
-            return new UnitResult<Error>();
+            return UnitResult.Success<Error>();
         }
 
         /// <summary>

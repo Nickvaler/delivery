@@ -60,7 +60,7 @@ namespace DeliveryApp.Core.Domain.Models.OrderAggregate
         {
             CourierId = courier.Id;
             Status = OrderStatus.Assigned;
-            return new UnitResult<Error>();
+            return UnitResult.Success<Error>();
         }
 
         public UnitResult<Error> Complete()
@@ -71,7 +71,7 @@ namespace DeliveryApp.Core.Domain.Models.OrderAggregate
             }
 
             Status = OrderStatus.Completed;
-            return new UnitResult<Error>();
+            return UnitResult.Success<Error>();
         }
     }
 }
