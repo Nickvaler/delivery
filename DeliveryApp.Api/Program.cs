@@ -1,4 +1,5 @@
 using DeliveryApp.Api;
+using DeliveryApp.Core.Domain.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,8 @@ builder.Services.AddCors(options =>
             policy.AllowAnyOrigin(); // Не делайте так в проде!
         });
 });
+
+builder.Services.AddTransient<IDispatchService, DispatchService>();
 
 // Configuration
 builder.Services.ConfigureOptions<SettingsSetup>();

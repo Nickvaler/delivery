@@ -53,6 +53,11 @@ namespace DeliveryApp.Core.Domain.Models.OrderAggregate
                 return GeneralErrors.ValueIsInvalid(string.Concat(EmptyValueError, nameof(orderId)));
             }
 
+            if (volume <= 0)
+            {
+                return GeneralErrors.ValueIsInvalid(nameof(volume));
+            }
+
             return new Order(orderId, location, volume);
         }
 
