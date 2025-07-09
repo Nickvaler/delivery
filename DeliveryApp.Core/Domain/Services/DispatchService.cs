@@ -25,7 +25,7 @@ namespace DeliveryApp.Core.Domain.Services
             }
 
             var canTakeOrderCouriers = couriers
-                .Where(c => c.CanTakeVolumeForOrder(order.Volume).Value);
+                .Where(c => c.CanTakeVolumeForOrder(order.Volume) is { IsSuccess: true, Value: true });
 
             Courier resultCourier = null;
             var minDistance = int.MaxValue;
