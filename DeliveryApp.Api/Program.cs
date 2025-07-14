@@ -1,8 +1,15 @@
+using CSharpFunctionalExtensions;
 using DeliveryApp.Api;
+using DeliveryApp.Core.Application.UseCases.Commands.AssignToCourier;
+using DeliveryApp.Core.Application.UseCases.Commands.CreateOrder;
+using DeliveryApp.Core.Application.UseCases.Commands.MoveCourier;
+using DeliveryApp.Core.Application.UseCases.Queries.GetAssignedCouriers;
+using DeliveryApp.Core.Application.UseCases.Queries.GetCreatedAndAssignedOrders;
 using DeliveryApp.Core.Domain.Services;
 using DeliveryApp.Core.Ports;
 using DeliveryApp.Infrastructure.Adapters.Postgres;
 using DeliveryApp.Infrastructure.Adapters.Postgres.Repositories;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Primitives;
 
@@ -43,6 +50,15 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 // Repositories
 builder.Services.AddScoped<ICourierRepository, CourierRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+
+// Commands 
+builder.Services.AddTransient<IRequestHandler<AssignToCourierCommand, UnitResult<Error>>, AssignToCourierCommandHandler>();
+builder.Services.AddTransient<IRequestHandler<CreateOrderCommand, UnitResult<Error>>, CreateOrderCommandHandler>();
+builder.Services.AddTransient<IRequestHandler<MoveCourierCommand, UnitResult<Error>>, MoveCourierCommandHandler>();
+
+// Queries
+builder.Services.AddTransient<IRequestHandler<GetAssignedCouriersQuery, GetAssignedCouriersQueryResponse>>(_ => new GetAssignedCouriersQueryHandler(connectionString));
+builder.Services.AddTransient<IRequestHandler<GetCreatedAndAssignedOrdersQuery, GetCreatedAndAssignedOrdersQueryResponse>>(_ => new GetCreatedAndAssignedOrdersQueryHandler(connectionString));
 
 var app = builder.Build();
 
