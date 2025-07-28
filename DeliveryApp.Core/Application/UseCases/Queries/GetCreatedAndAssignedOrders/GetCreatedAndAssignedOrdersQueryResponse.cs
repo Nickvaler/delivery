@@ -2,13 +2,15 @@
 {
     public class GetCreatedAndAssignedOrdersQueryResponse
     {
-        public GetCreatedAndAssignedOrdersQueryResponse(List<Order> orders)
+        public IReadOnlyList<OrderDto> Orders { get; }
+
+        public GetCreatedAndAssignedOrdersQueryResponse(IEnumerable<OrderDto> orders)
         {
-            Orders.AddRange(orders);
+            ArgumentNullException.ThrowIfNull(orders);
+            Orders = orders.ToList().AsReadOnly();
         }
 
-        public List<Order> Orders { get; set; } = [];
-        public class Order
+        public class OrderDto
         {
             /// <summary>
             ///     Идентификатор

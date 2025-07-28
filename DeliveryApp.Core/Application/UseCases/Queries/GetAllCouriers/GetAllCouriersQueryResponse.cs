@@ -1,16 +1,16 @@
-﻿
-namespace DeliveryApp.Core.Application.UseCases.Queries.GetAssignedCouriers
+﻿namespace DeliveryApp.Core.Application.UseCases.Queries.GetAllCouriers
 {
-    public class GetAssignedCouriersQueryResponse
+    public sealed class GetAllCouriersQueryResponse
     {
-        public GetAssignedCouriersQueryResponse(List<Courier> couriers)
+        public IReadOnlyList<CourierDto> Couriers { get; }
+
+        public GetAllCouriersQueryResponse(IEnumerable<CourierDto> couriers)
         {
-            Couriers.AddRange(couriers);
+            ArgumentNullException.ThrowIfNull(couriers);
+            Couriers = couriers.ToList().AsReadOnly();
         }
 
-        public List<Courier> Couriers { get; set; } = [];
-
-        public class Courier
+        public class CourierDto
         {
             /// <summary>
             ///     Идентификатор
