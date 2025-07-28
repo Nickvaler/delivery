@@ -1,4 +1,5 @@
-﻿using DeliveryApp.Core.Domain.Models.OrderAggregate;
+﻿using CSharpFunctionalExtensions;
+using DeliveryApp.Core.Domain.Models.OrderAggregate;
 using DeliveryApp.Core.Ports;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,6 +27,14 @@ namespace DeliveryApp.Infrastructure.Adapters.Postgres.Repositories
             return await context.Orders
                 .Where(o => o.Status == OrderStatus.Assigned)
                 .ToListAsync();
+        }
+
+        public async Task<Maybe<Order>> GetFirstInCreatedStatusAsync()
+        {
+            var order = await context
+                .Orders
+                .FirstOrDefaultAsync(o => o.Status.Name == OrderStatus.Created.Name);
+            return order;
         }
 
         public async Task<Order> GetRandomCreatedAsync()

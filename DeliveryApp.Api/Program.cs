@@ -1,8 +1,16 @@
+using CSharpFunctionalExtensions;
 using DeliveryApp.Api;
+using DeliveryApp.Core.Application.UseCases.Commands.AssignToCourier;
+using DeliveryApp.Core.Application.UseCases.Commands.CreateOrder;
+using DeliveryApp.Core.Application.UseCases.Commands.MoveCourier;
+using DeliveryApp.Core.Application.UseCases.Queries.GetAllCouriers;
+using DeliveryApp.Core.Application.UseCases.Queries.GetCreatedAndAssignedOrders;
 using DeliveryApp.Core.Domain.Services;
 using DeliveryApp.Core.Ports;
 using DeliveryApp.Infrastructure.Adapters.Postgres;
+using DeliveryApp.Infrastructure.Adapters.Postgres.Queries;
 using DeliveryApp.Infrastructure.Adapters.Postgres.Repositories;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Primitives;
 
@@ -43,6 +51,20 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 // Repositories
 builder.Services.AddScoped<ICourierRepository, CourierRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+
+// Commands 
+builder.Services.AddScoped<IRequestHandler<AssignToCourierCommand, UnitResult<Error>>, AssignToCourierCommandHandler>();
+builder.Services.AddScoped<IRequestHandler<CreateOrderCommand, UnitResult<Error>>, CreateOrderCommandHandler>();
+builder.Services.AddScoped<IRequestHandler<MoveCourierCommand, UnitResult<Error>>, MoveCourierCommandHandler>();
+
+// Query Services
+
+builder.Services.AddScoped<ICourierQueryService, CourierQueryService>();
+builder.Services.AddScoped<IOrderQueryService, OrderQueryService>();
+
+// Queries
+builder.Services.AddScoped<IRequestHandler<GetAllCouriersQuery, GetAllCouriersQueryResponse>, GetAllCouriersQueryHandler>();
+builder.Services.AddScoped<IRequestHandler<GetCreatedAndAssignedOrdersQuery, GetCreatedAndAssignedOrdersQueryResponse>, GetCreatedAndAssignedOrdersQueryHandler>();
 
 var app = builder.Build();
 

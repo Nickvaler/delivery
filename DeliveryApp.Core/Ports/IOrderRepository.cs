@@ -1,4 +1,5 @@
-﻿using DeliveryApp.Core.Domain.Models.OrderAggregate;
+﻿using CSharpFunctionalExtensions;
+using DeliveryApp.Core.Domain.Models.OrderAggregate;
 using Primitives;
 
 namespace DeliveryApp.Core.Ports
@@ -10,5 +11,6 @@ namespace DeliveryApp.Core.Ports
         Task<Order> GetAsync(Guid id);
         Task<Order> GetRandomCreatedAsync();
         Task<List<Order>> GetAllAssignedAsync();
+        Task<Maybe<Order>> GetFirstInCreatedStatusAsync();
     }
 }
